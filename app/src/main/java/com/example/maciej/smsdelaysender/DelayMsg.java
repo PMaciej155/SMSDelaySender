@@ -21,8 +21,8 @@ import java.util.TimerTask;
 
 public class DelayMsg extends Service {
 
-    public static final int sizeMess = 0;
-    public static final String ACTION_LOCATION_BROADCAST = DelayMsg.class.getName();
+
+    public static final String SERVICE_DELAY_BROADCAST = DelayMsg.class.getName();
     private Timer timer = new Timer();
     static List<SMessage> smss = new ArrayList<SMessage>();
 
@@ -32,7 +32,6 @@ public class DelayMsg extends Service {
         // TODO Auto-generated method stub
         super.onCreate();
         startService();
-
     }
 
     @Nullable
@@ -52,6 +51,7 @@ public class DelayMsg extends Service {
             }};
         timer.schedule(task, 1000, 30000);
     }
+
     private void sendSMS()
     {
         Log.i("Sms", "Check messages");
@@ -78,10 +78,9 @@ public class DelayMsg extends Service {
     }
 
     private void sendBroadcastMessage() {
-            Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
+            Intent intent = new Intent(SERVICE_DELAY_BROADCAST );
             intent.putExtra("sizeOfList", smss.size());
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
     }
 
 

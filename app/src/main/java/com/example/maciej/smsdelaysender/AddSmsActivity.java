@@ -70,8 +70,6 @@ public class AddSmsActivity extends AppCompatActivity {
     }
 
 
-
-
     public void setDate(View v){
         new DatePickerDialog(AddSmsActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),

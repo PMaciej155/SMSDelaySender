@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                         int num = intent.getIntExtra("sizeofList", 0);
                         textView.setText("Zostało "+num+" wiadomości!");
                     }
-                }, new IntentFilter(DelayMsg.ACTION_LOCATION_BROADCAST)
+                }, new IntentFilter(DelayMsg.SERVICE_DELAY_BROADCAST)
         );
 
     }
