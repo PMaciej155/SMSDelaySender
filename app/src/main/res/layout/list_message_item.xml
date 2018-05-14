@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/dateField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView2"
@@ -14,7 +14,7 @@
         android:text="Dnia: 21/12/2017" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/numberField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -25,7 +25,7 @@
         android:text="Numer: 666 666 666" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/timeField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
