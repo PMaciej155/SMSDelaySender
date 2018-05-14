@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -27,9 +28,18 @@ public class SmsAdapter extends ArrayAdapter<SMessage>
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         // Check if an existing view is being reused, otherwise inflate the view
+        SMessage sms = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.support_simple_spinner_dropdown_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_message_item, parent, false);
         }
+        TextView numberField = (TextView) convertView.findViewById(R.id.numberField);
+        TextView timeField = (TextView) convertView.findViewById(R.id.timeField);
+        TextView dateField = (TextView) convertView.findViewById(R.id.dateField);
+
+        numberField.setText("Number: "+sms.getNumber());
+        timeField.setText("O godzinier: "+sms.getTimeOfSend());
+        dateField.setText("Dnia: "+sms.getDayOfSend());
+
         return convertView;
     }
 
