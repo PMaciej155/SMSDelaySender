@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        int num = intent.getIntExtra("size", 0);
+                        int num = intent.getIntExtra("sizeofList", 0);
                         textView.setText("Zostało "+num+" wiadomości!");
                     }
                 }, new IntentFilter(DelayMsg.ACTION_LOCATION_BROADCAST)

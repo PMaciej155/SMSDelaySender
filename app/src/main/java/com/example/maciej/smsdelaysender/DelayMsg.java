@@ -26,11 +26,6 @@ public class DelayMsg extends Service {
     private Timer timer = new Timer();
     static List<SMessage> smss = new ArrayList<SMessage>();
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
     @Override
     public void onCreate() {
@@ -40,34 +35,42 @@ public class DelayMsg extends Service {
 
     }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
     private void startService()
     {
         TimerTask task = new TimerTask(){
 
             @Override
             public void run() {
-                Log.i("Sms", "Petla");
+                Log.i("Sms", "Loop");
                 sendSMS();
             }};
         timer.schedule(task, 1000, 30000);
     }
     private void sendSMS()
     {
-        Log.i("Sms", "Przegladanie wiadomosc");
+        Log.i("Sms", "Check messages");
         if(!smss.isEmpty()) {
             Calendar calendar1 = Calendar.getInstance();
             SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            String currentDate;
+            String datadb;
             for (SMessage i : smss) {
-                String currentDate = formatter1.format(calendar1.getTime());
-                String datadb = i.dayOfSend + " " + i.timeOfSend;
-                Log.i("Data", String.valueOf(currentDate));
-                Log.i("Data", String.valueOf(datadb));
-                Log.i("Data", String.valueOf(currentDate.compareTo(datadb)));
+                currentDate = formatter1.format(calendar1.getTime());
+                datadb = i.getDayOfSend() + " " + i.getTimeOfSend();
+                Log.i("Data", "Current date"+String.valueOf(currentDate));
+                Log.i("Data", "Date of send"+String.valueOf(datadb));
+                Log.i("Data", "Result of compare"+String.valueOf(currentDate.compareTo(datadb)));
                 if (currentDate.compareTo(datadb) >= 0) {
                     SmsManager sms = SmsManager.getDefault();
-                    sms.sendTextMessage(i.number, null, i.message, null, null);
+                    sms.sendTextMessage(i.getNumber(), null, i.getMessage(), null, null);
                     smss.remove(i);
-                    Log.i("Sms", "Wyslałano wiadomosc");
+                    Log.i("Sms", "Message is sended");
                 }
             }
         }
@@ -76,7 +79,7 @@ public class DelayMsg extends Service {
 
     private void sendBroadcastMessage() {
             Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
-            intent.putExtra("size", smss.size());
+            intent.putExtra("sizeOfList", smss.size());
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
     }

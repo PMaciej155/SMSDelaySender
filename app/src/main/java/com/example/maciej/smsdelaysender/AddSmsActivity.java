@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -71,6 +70,54 @@ public class AddSmsActivity extends AppCompatActivity {
     }
 
 
+
+
+    public void setDate(View v){
+        new DatePickerDialog(AddSmsActivity.this, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void updateLabel() {
+
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMAN);
+        dateM = sdf.format(myCalendar.getTime());
+        edittext.setText(sdf.format(myCalendar.getTime()));
+
+    }
+
+    public void setTimeMess(View v){
+        final EditText edit = (EditText) v;
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(AddSmsActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                edit.setText( String.format("%02d:%02d", selectedHour, selectedMinute));
+                time = String.format("%02d:%02d", selectedHour, selectedMinute);
+            }
+        }, hour, minute, true);//Yes 24 hour time
+        mTimePicker.setTitle("Select Time");
+        mTimePicker.show();
+    }
+
+    public void addMessageToSend(View v){
+        SMessage mess = new SMessage();
+        EditText multiText = (EditText) findViewById(R.id.editText6);
+        if(num != null & time != null & dateM != null & multiText.getText().toString().length() > 0){
+        mess.setNumber(num);
+        mess.setTimeOfSend(time);
+        mess.setDayOfSend(dateM);
+        mess.setMessage(multiText.getText().toString());
+        DelayMsg.smss.add(mess);
+        Log.i("Sms", "Added Message");}
+
+        finish();
+    }
+
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
@@ -95,51 +142,5 @@ public class AddSmsActivity extends AppCompatActivity {
                     break;
                 }
         }
-    }
-
-    public void setDate(View v){
-        new DatePickerDialog(AddSmsActivity.this, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
-    private void updateLabel() {
-
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMAN);
-        dateM = sdf.format(myCalendar.getTime());
-        edittext.setText(sdf.format(myCalendar.getTime()));
-
-    }
-
-    public void setTimeMess(View v){
-        final EditText edit = (EditText) v;
-        // TODO Auto-generated method stub
-        Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = mcurrentTime.get(Calendar.MINUTE);
-        TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(AddSmsActivity.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                edit.setText( String.format("%02d:%02d", selectedHour, selectedMinute));
-                time = String.format("%02d:%02d", selectedHour, selectedMinute);
-            }
-        }, hour, minute, true);//Yes 24 hour time
-        mTimePicker.setTitle("Select Time");
-        mTimePicker.show();
-
-    }
-
-    public void addMessageToSend(View v){
-        SMessage mess = new SMessage();
-        mess.number = num;
-        mess.timeOfSend = time;
-        mess.dayOfSend = dateM;
-        EditText multiText = (EditText) findViewById(R.id.editText6);
-        mess.message = multiText.getText().toString();
-        DelayMsg.smss.add(mess);
-        Log.i("Sms", "Dodano wiadomosc");
-        finish();
     }
 }
